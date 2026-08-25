@@ -1,0 +1,339 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cultura Musical — De los orígenes a la actualidad</title>
+  <meta name="description" content="Un recorrido por la cultura musical a través de los años: de los primeros instrumentos prehistóricos al streaming, con las ramas de cada género y subgénero." />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E🎵%3C/text%3E%3C/svg%3E" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    :root {
+      --bg: #0a0a0f;
+      --surface: #14141d;
+      --surface-2: #1b1b28;
+      --border: #262638;
+      --text: #e9e9f2;
+      --muted: #9d9db4;
+      --accent: #a78bfa;
+      --accent-2: #f472b6;
+      --accent-soft: #c4b5fd;
+    }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      line-height: 1.65;
+      -webkit-font-smoothing: antialiased;
+    }
+    h1, h2, h3 { font-family: 'Space Grotesk', 'Inter', sans-serif; line-height: 1.2; }
+    .container { max-width: 1080px; margin: 0 auto; padding: 0 1.4rem; }
+
+    /* ---- Nav ---- */
+    nav {
+      position: sticky; top: 0; z-index: 10;
+      background: rgba(10, 10, 15, 0.82);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-inner { display: flex; align-items: center; justify-content: space-between; padding: 0.85rem 1.4rem; max-width: 1080px; margin: 0 auto; }
+    .brand { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 1.05rem; color: var(--text); text-decoration: none; }
+    .brand span { background: linear-gradient(90deg, var(--accent), var(--accent-2)); -webkit-background-clip: text; background-clip: text; color: transparent; }
+    .nav-links a { color: var(--muted); text-decoration: none; font-size: 0.92rem; margin-left: 1.4rem; transition: color 0.2s; }
+    .nav-links a:hover { color: var(--text); }
+
+    /* ---- Hero ---- */
+    .hero {
+      text-align: center;
+      padding: 6rem 1.4rem 4.5rem;
+      background:
+        radial-gradient(620px 320px at 18% -5%, rgba(167, 139, 250, 0.16), transparent 70%),
+        radial-gradient(620px 320px at 82% 5%, rgba(244, 114, 182, 0.12), transparent 70%);
+    }
+    .hero .kicker {
+      display: inline-block; font-size: 0.8rem; letter-spacing: 0.14em; text-transform: uppercase;
+      color: var(--accent-soft); border: 1px solid var(--border); background: var(--surface);
+      padding: 0.3rem 0.9rem; border-radius: 999px; margin-bottom: 1.4rem;
+    }
+    .hero h1 { font-size: clamp(2.3rem, 6vw, 4rem); font-weight: 700; letter-spacing: -0.02em; }
+    .hero h1 span { background: linear-gradient(90deg, var(--accent), var(--accent-2)); -webkit-background-clip: text; background-clip: text; color: transparent; }
+    .hero p { color: var(--muted); max-width: 620px; margin: 1.3rem auto 0; font-size: 1.05rem; }
+
+    /* ---- Secciones ---- */
+    section { padding: 4rem 0; }
+    section > .container > h2 { font-size: clamp(1.6rem, 3.5vw, 2.2rem); margin-bottom: 0.5rem; }
+    section > .container > h2 em { font-style: normal; background: linear-gradient(90deg, var(--accent), var(--accent-2)); -webkit-background-clip: text; background-clip: text; color: transparent; }
+    .section-sub { color: var(--muted); max-width: 680px; margin-bottom: 2.8rem; }
+
+    /* ---- Línea del tiempo ---- */
+    .timeline { position: relative; padding-left: 2.1rem; border-left: 2px solid var(--border); }
+    .era { position: relative; padding-bottom: 2.6rem; }
+    .era:last-child { padding-bottom: 0.5rem; }
+    .era::before {
+      content: ''; position: absolute; left: calc(-2.1rem - 8px); top: 0.45rem;
+      width: 13px; height: 13px; border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent), var(--accent-2));
+      box-shadow: 0 0 0 4px rgba(167, 139, 250, 0.12);
+    }
+    .era .year {
+      font-size: 0.8rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase;
+      color: var(--accent-soft);
+    }
+    .era h3 { font-size: 1.3rem; margin: 0.25rem 0 0.45rem; }
+    .era p { color: var(--muted); max-width: 720px; }
+    .era strong { color: var(--text); font-weight: 600; }
+
+    /* ---- Géneros ---- */
+    #generos { background: linear-gradient(180deg, transparent, rgba(167, 139, 250, 0.04), transparent); }
+    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(295px, 1fr)); gap: 1.15rem; }
+    .card {
+      background: var(--surface); border: 1px solid var(--border); border-radius: 14px;
+      padding: 1.35rem 1.35rem 1.45rem;
+      transition: transform 0.2s ease, border-color 0.2s ease;
+    }
+    .card:hover { transform: translateY(-3px); border-color: rgba(167, 139, 250, 0.55); }
+    .card-head { display: flex; align-items: baseline; justify-content: space-between; gap: 0.6rem; margin-bottom: 0.4rem; }
+    .card h3 { font-size: 1.15rem; }
+    .card .since { font-size: 0.75rem; color: var(--accent-soft); white-space: nowrap; font-weight: 600; letter-spacing: 0.05em; }
+    .card > p { color: var(--muted); font-size: 0.9rem; margin-bottom: 0.95rem; }
+    .chips { display: flex; flex-wrap: wrap; gap: 0.42rem; }
+    .chip {
+      font-size: 0.76rem; padding: 0.26rem 0.68rem; border-radius: 999px;
+      background: var(--surface-2); border: 1px solid var(--border); color: var(--muted);
+      transition: color 0.2s, border-color 0.2s;
+    }
+    .chip:hover { color: var(--text); border-color: var(--accent); }
+
+    .closing {
+      text-align: center; color: var(--muted); max-width: 640px;
+      margin: 3.2rem auto 0; font-size: 1rem;
+    }
+    .closing strong { color: var(--accent-soft); }
+
+    footer { border-top: 1px solid var(--border); padding: 2.4rem 1.4rem; text-align: center; color: var(--muted); font-size: 0.88rem; }
+    footer .note { margin-top: 0.3rem; font-size: 0.8rem; opacity: 0.75; }
+
+    @media (max-width: 560px) {
+      .hero { padding: 4rem 1.2rem 3rem; }
+      .timeline { padding-left: 1.5rem; }
+      .era::before { left: calc(-1.5rem - 7px); width: 11px; height: 11px; }
+      .nav-links a { margin-left: 0.9rem; font-size: 0.85rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <div class="nav-inner">
+      <a class="brand" href="#top">🎵 Cultura <span>Musical</span></a>
+      <div class="nav-links">
+        <a href="#historia">Historia</a>
+        <a href="#generos">Géneros</a>
+      </div>
+    </div>
+  </nav>
+
+  <header class="hero" id="top">
+    <span class="kicker">De los huesos tallados al streaming</span>
+    <h1>La música a través<br />de <span>los años</span></h1>
+    <p>Un recorrido por la cultura musical: cómo nació, cómo evolucionó década a década y cómo cada género se ramificó en decenas de subgéneros que hoy suenan en todo el mundo.</p>
+  </header>
+
+  <main>
+    <section id="historia">
+      <div class="container">
+        <h2>Línea del <em>tiempo</em></h2>
+        <p class="section-sub">La música acompaña al ser humano desde antes de la escritura. Estos son los grandes capítulos de su historia.</p>
+
+        <div class="timeline">
+          <div class="era">
+            <span class="year">c. 40.000 a.C. — Prehistoria</span>
+            <h3>🦴 El origen del sonido</h3>
+            <p>Los primeros instrumentos conocidos son <strong>flautas de hueso</strong> halladas en cuevas de Europa. La música nace ligada al <strong>ritual, la danza y la comunidad</strong>: tambores, palmas y voz mucho antes de cualquier partitura.</p>
+          </div>
+
+          <div class="era">
+            <span class="year">s. VIII a.C. – s. XV — Antigüedad y Edad Media</span>
+            <h3>🏛️ Templos, liras y monasterios</h3>
+            <p>Grecia y Roma teorizan la música con liras y aulos. En la Edad Media dominan el <strong>canto gregoriano</strong> y los <strong>trovadores</strong>, y Guido d'Arezzo inventa la <strong>notación musical</strong>: por fin la música se puede escribir.</p>
+          </div>
+
+          <div class="era">
+            <span class="year">1600 – 1900 — Época clásica</span>
+            <h3>🎻 Del Barroco al Romanticismo</h3>
+            <p>Vivaldi y <strong>Bach</strong> (Barroco), <strong>Mozart</strong> y Haydn (Clasicismo), <strong>Beethoven</strong>, Chopin y Wagner (Romanticismo). Nacen la <strong>ópera</strong>, la <strong>sinfonía</strong> y el concierto público: la música se vuelve espectáculo.</p>
+          </div>
+
+          <div class="era">
+            <span class="year">1890 – 1940 — Raíces modernas</span>
+            <h3>🎺 Blues, jazz y góspel</h3>
+            <p>En el sur de EE. UU., las comunidades afroamericanas crean el <strong>blues</strong> (Robert Johnson), el <strong>góspel</strong> y el <strong>jazz</strong> de Nueva Orleans (Louis Armstrong, Duke Ellington). De esta semilla brota casi toda la música popular moderna.</p>
+          </div>
+
+          <div class="era">
+            <span class="year">Años 50 — La chispa</span>
+            <h3>🎸 Rock and roll</h3>
+            <p><strong>Elvis Presley</strong>, Chuck Berry y Little Richard fusionan rhythm &amp; blues con country y encienden el <strong>rock and roll</strong>. Nace la <strong>cultura juvenil</strong>: la música ya no es solo entretenimiento, es identidad.</p>
+          </div>
+
+          <div class="era">
+            <span class="year">Años 60 – 70 — La gran explosión</span>
+            <h3>✌️ Todo nace a la vez</h3>
+            <p><strong>The Beatles</strong> y los Stones conquistan el mundo; Hendrix y Pink Floyd abren la <strong>psicodelia</strong> y el <strong>rock progresivo</strong>. <strong>Black Sabbath funda el metal</strong> (1970), Ramones y Sex Pistols el <strong>punk</strong>, James Brown el <strong>funk</strong>, Bob Marley globaliza el <strong>reggae</strong>, brilla la <strong>música disco</strong> y en 1973 DJ Kool Herc enciende el <strong>hip-hop</strong> en el Bronx.</p>
+          </div>
+
+          <div class="era">
+            <span class="year">Años 80 — Sintetizadores y MTV</span>
+            <h3>📼 La era del videoclip</h3>
+            <p>El sintetizador lo cambia todo: <strong>synth-pop</strong> y new wave (Depeche Mode, The Cure). <strong>Michael Jackson</strong> y Madonna inventan el pop global, Metallica y Slayer aceleran el <strong>thrash metal</strong>, y en Chicago y Detroit nacen el <strong>house</strong> y el <strong>techno</strong>.</p>
+          </div>
+
+          <div class="era">
+            <span class="year">Años 90 — Alternativa</span>
+            <h3>💿 Rabia y globalización</h3>
+            <p><strong>Nirvana</strong> y el grunge destronan al hair metal; Oasis y Blur pelean el <strong>britpop</strong>. <strong>2Pac y Biggie</strong> llevan el rap a la cima, aparece el <strong>nu metal</strong> (Korn, Limp Bizkit), suena el eurodance y el CD domina el planeta.</p>
+          </div>
+
+          <div class="era">
+            <span class="year">Años 2000 — La era digital</span>
+            <h3>📱 Napster, iPod y escena emo</h3>
+            <p>Las descargas rompen la industria. Triunfan el <strong>emo</strong> (My Chemical Romance) y el <strong>metalcore</strong> (<strong>Bring Me The Horizon</strong>, Killswitch Engage), el indie rock, y el <strong>reggaetón</strong> despega con Daddy Yankee. La música se vuelve portátil.</p>
+          </div>
+
+          <div class="era">
+            <span class="year">2010 – Hoy — Streaming</span>
+            <h3>🌐 Sin fronteras</h3>
+            <p>Spotify, YouTube y TikTok deciden qué suena. El <strong>trap</strong> domina el rap, el <strong>K-pop</strong> (BTS, BLACKPINK) y la <strong>música latina</strong> (Bad Bunny) conquistan el mundo, surgen el <strong>hyperpop</strong> y los <strong>corridos tumbados</strong>. Los géneros se mezclan sin pedir permiso: la era de la fusión total.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="generos">
+      <div class="container">
+        <h2>Las ramas de cada <em>género</em></h2>
+        <p class="section-sub">Cada género es un árbol: nace de una raíz y no deja de dividirse. Estas son sus familias y subgéneros principales.</p>
+
+        <div class="grid">
+          <div class="card">
+            <div class="card-head"><h3>🎸 Rock</h3><span class="since">~1950</span></div>
+            <p>Del rock and roll de los 50 a la escena indie actual: el género que definió la rebeldía.</p>
+            <div class="chips">
+              <span class="chip">Rock and roll</span><span class="chip">Psicodélico</span><span class="chip">Progresivo</span><span class="chip">Hard rock</span><span class="chip">Glam</span><span class="chip">Grunge</span><span class="chip">Britpop</span><span class="chip">Alternativo</span><span class="chip">Indie</span><span class="chip">Garage</span><span class="chip">Post-rock</span>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-head"><h3>🤘 Metal</h3><span class="since">1970</span></div>
+            <p>Nació con Black Sabbath y se ramificó en las escenas más extremas y técnicas de la música.</p>
+            <div class="chips">
+              <span class="chip">Heavy</span><span class="chip">Thrash</span><span class="chip">Death</span><span class="chip">Black</span><span class="chip">Doom</span><span class="chip">Power</span><span class="chip">Groove</span><span class="chip">Nu metal</span><span class="chip">Metalcore</span><span class="chip">Deathcore</span><span class="chip">Djent</span><span class="chip">Sinfónico</span>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-head"><h3>🧷 Punk</h3><span class="since">1976</span></div>
+            <p>Tres acordes y la verdad: velocidad, actitud DIY y una influencia enorme en todo lo posterior.</p>
+            <div class="chips">
+              <span class="chip">Proto-punk</span><span class="chip">Hardcore</span><span class="chip">Post-punk</span><span class="chip">Pop punk</span><span class="chip">Ska punk</span><span class="chip">Emo</span><span class="chip">Screamo</span><span class="chip">Post-hardcore</span><span class="chip">Crust</span>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-head"><h3>✨ Pop</h3><span class="since">~1955</span></div>
+            <p>La música popular por definición: melodía, producción impecable y reinvención constante.</p>
+            <div class="chips">
+              <span class="chip">Synth-pop</span><span class="chip">Dance pop</span><span class="chip">Teen pop</span><span class="chip">Electropop</span><span class="chip">Art pop</span><span class="chip">Indie pop</span><span class="chip">K-pop</span><span class="chip">J-pop</span><span class="chip">Hyperpop</span><span class="chip">Bedroom pop</span>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-head"><h3>🎤 Hip-Hop</h3><span class="since">1973</span></div>
+            <p>Nació en las fiestas del Bronx con cuatro pilares: DJ, MC, breakdance y graffiti. Hoy domina el mundo.</p>
+            <div class="chips">
+              <span class="chip">Old school</span><span class="chip">Boom bap</span><span class="chip">Gangsta</span><span class="chip">Crunk</span><span class="chip">Trap</span><span class="chip">Drill</span><span class="chip">Grime</span><span class="chip">Cloud rap</span><span class="chip">Lo-fi</span><span class="chip">Rap latino</span>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-head"><h3>🎛️ Electrónica</h3><span class="since">~1975</span></div>
+            <p>De los sintetizadores analógicos a los festivales masivos: la música hecha máquina.</p>
+            <div class="chips">
+              <span class="chip">Disco</span><span class="chip">House</span><span class="chip">Techno</span><span class="chip">Trance</span><span class="chip">Ambient</span><span class="chip">Drum &amp; bass</span><span class="chip">Jungle</span><span class="chip">Dubstep</span><span class="chip">EDM</span><span class="chip">Synthwave</span><span class="chip">Hardstyle</span><span class="chip">IDM</span>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-head"><h3>🎺 Jazz</h3><span class="since">~1900</span></div>
+            <p>La gran aportación de Nueva Orleans: improvisación, swing y libertad absoluta.</p>
+            <div class="chips">
+              <span class="chip">Dixieland</span><span class="chip">Swing</span><span class="chip">Bebop</span><span class="chip">Cool jazz</span><span class="chip">Hard bop</span><span class="chip">Free jazz</span><span class="chip">Fusión</span><span class="chip">Smooth</span><span class="chip">Latin jazz</span><span class="chip">Nu jazz</span>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-head"><h3>🎙️ Blues</h3><span class="since">~1890</span></div>
+            <p>El lamento del delta del Misisipi que se convirtió en la raíz de casi todo lo moderno.</p>
+            <div class="chips">
+              <span class="chip">Delta blues</span><span class="chip">Chicago</span><span class="chip">Eléctrico</span><span class="chip">Jump blues</span><span class="chip">Boogie-woogie</span><span class="chip">Blues rock</span><span class="chip">Rhythm &amp; blues</span>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-head"><h3>💜 Soul, R&amp;B y Funk</h3><span class="since">~1955</span></div>
+            <p>El góspel se vuelve terrenal: groove, sentimiento y las mejores voces de la historia.</p>
+            <div class="chips">
+              <span class="chip">Soul</span><span class="chip">Motown</span><span class="chip">Funk</span><span class="chip">P-Funk</span><span class="chip">Neo soul</span><span class="chip">R&amp;B contemporáneo</span><span class="chip">New jack swing</span>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-head"><h3>🇯🇲 Reggae</h3><span class="since">~1960</span></div>
+            <p>Jamaica inventó un ritmo propio y lo exportó al planeta entero de la mano de Bob Marley.</p>
+            <div class="chips">
+              <span class="chip">Mento</span><span class="chip">Ska</span><span class="chip">Rocksteady</span><span class="chip">Roots</span><span class="chip">Dub</span><span class="chip">Dancehall</span><span class="chip">Ragga</span><span class="chip">Reggae en español</span>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-head"><h3>🔥 Música latina</h3><span class="since">siglos</span></div>
+            <p>Un continente entero de ritmos: del tango y el bolero al reggaetón que hoy lidera las listas globales.</p>
+            <div class="chips">
+              <span class="chip">Salsa</span><span class="chip">Cumbia</span><span class="chip">Merengue</span><span class="chip">Bachata</span><span class="chip">Bolero</span><span class="chip">Tango</span><span class="chip">Mariachi</span><span class="chip">Banda</span><span class="chip">Corridos</span><span class="chip">Reggaetón</span><span class="chip">Latin trap</span><span class="chip">Corridos tumbados</span>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-head"><h3>🪕 Folk y Country</h3><span class="since">tradición</span></div>
+            <p>La música del pueblo: historias contadas con guitarra, banjo y carretera.</p>
+            <div class="chips">
+              <span class="chip">Folk</span><span class="chip">Americana</span><span class="chip">Bluegrass</span><span class="chip">Honky-tonk</span><span class="chip">Outlaw</span><span class="chip">Country pop</span><span class="chip">Country rock</span><span class="chip">Alt-country</span>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-head"><h3>🎼 Clásica</h3><span class="since">s. IX</span></div>
+            <p>Más de mil años de tradición escrita, de los monasterios a las salas de concierto.</p>
+            <div class="chips">
+              <span class="chip">Medieval</span><span class="chip">Renacentista</span><span class="chip">Barroca</span><span class="chip">Clasicismo</span><span class="chip">Romanticismo</span><span class="chip">Impresionismo</span><span class="chip">Minimalismo</span><span class="chip">Contemporánea</span>
+            </div>
+          </div>
+        </div>
+
+        <p class="closing">Cada rama sigue dividiéndose y mezclándose con las demás. <strong>La música es un árbol que nunca deja de crecer</strong> — y todos escuchamos alguna de sus ramas. 🎶</p>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div>🎵 Cultura Musical — de los orígenes a la actualidad</div>
+    <div class="note">Hecha con ♥ y mucho volumen · 2026</div>
+  </footer>
+
+</body>
+</html>

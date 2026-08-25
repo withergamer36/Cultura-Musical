@@ -1,0 +1,19 @@
+{
+  "name": "Cultura Musical — De los orígenes a la actualidad",
+  "short_name": "Cultura Musical",
+  "description": "Recorrido interactivo por la historia de la música: línea del tiempo, géneros, estudio de ritmos y quiz.",
+  "start_url": ".",
+  "scope": ".",
+  "display": "standalone",
+  "background_color": "#0a0a0f",
+  "theme_color": "#0a0a0f",
+  "lang": "es",
+  "icons": [
+    {
+      "src": "public/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}

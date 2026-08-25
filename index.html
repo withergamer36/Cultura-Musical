@@ -6,6 +6,22 @@
   <title>Cultura Musical — De los orígenes a la actualidad</title>
   <meta name="description" content="Un recorrido por la cultura musical a través de los años: de los primeros instrumentos prehistóricos al streaming, con las ramas de cada género y subgénero." />
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E🎵%3C/text%3E%3C/svg%3E" />
+  <meta name="theme-color" content="#0a0a0f" />
+  <meta name="keywords" content="cultura musical, historia de la música, géneros musicales, subgéneros, rock, metal, hip-hop, línea de tiempo musical" />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Cultura Musical — De los orígenes a la actualidad" />
+  <meta property="og:description" content="Recorrido interactivo por la historia de la música: línea del tiempo, 13 familias de géneros, estudio de ritmos y quiz." />
+  <meta property="og:url" content="https://withergamer36.github.io/cultura-musical/" />
+  <meta property="og:locale" content="es_ES" />
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Cultura Musical — De los orígenes a la actualidad" />
+  <meta name="twitter:description" content="Historia de la música, géneros, estudio de ritmos interactivo y quiz." />
+  <link rel="manifest" href="manifest.webmanifest" />
+  <link rel="canonical" href="https://withergamer36.github.io/cultura-musical/" />
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"WebSite","name":"Cultura Musical","url":"https://withergamer36.github.io/cultura-musical/","description":"Un recorrido interactivo por la cultura musical a través de los años, con línea del tiempo, géneros, estudio de ritmos y quiz.","inLanguage":"es"}
+  </script>
+  <script>document.documentElement.dataset.theme = localStorage.getItem('cm-theme') || 'dark';</script>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
@@ -124,16 +140,138 @@
       .era::before { left: calc(-1.5rem - 7px); width: 11px; height: 11px; }
       .nav-links a { margin-left: 0.9rem; font-size: 0.85rem; }
     }
+
+    /* ---- Tema claro ---- */
+    [data-theme="light"] {
+      --bg: #f6f6fb; --surface: #ffffff; --surface-2: #edeef6; --border: #d9dbe8;
+      --text: #191925; --muted: #5b5b74; --accent: #7c3aed; --accent-2: #db2777; --accent-soft: #6d28d9;
+    }
+    [data-theme="light"] nav { background: rgba(246, 246, 251, 0.85); }
+    [data-theme="light"] .panel { box-shadow: 0 30px 80px rgba(30, 30, 60, 0.25); }
+
+    /* ---- Botones ---- */
+    .btn {
+      display: inline-flex; align-items: center; gap: 0.45rem; cursor: pointer;
+      border-radius: 999px; border: 1px solid var(--border); background: var(--surface);
+      color: var(--text); font: 600 0.9rem 'Inter', sans-serif; padding: 0.6rem 1.25rem;
+      transition: transform 0.2s, border-color 0.2s, opacity 0.2s; text-decoration: none;
+    }
+    .btn:hover { border-color: var(--accent); transform: translateY(-1px); }
+    .btn.primary { background: linear-gradient(90deg, var(--accent), var(--accent-2)); border-color: transparent; color: #fff; }
+    .icon-btn {
+      cursor: pointer; border: 1px solid var(--border); background: var(--surface); color: var(--muted);
+      border-radius: 10px; width: 34px; height: 34px; display: inline-flex; align-items: center;
+      justify-content: center; font-size: 0.95rem; transition: color 0.2s, border-color 0.2s; margin-left: 0.9rem;
+    }
+    .icon-btn:hover { color: var(--text); border-color: var(--accent); }
+    .kbd { font: 500 0.68rem 'Inter', sans-serif; border: 1px solid var(--border); border-radius: 5px; padding: 0.08rem 0.35rem; color: var(--muted); }
+    .nav-actions { display: flex; align-items: center; }
+    .search-fake { display: inline-flex; align-items: center; gap: 0.5rem; cursor: pointer; border: 1px solid var(--border); background: var(--surface); color: var(--muted); border-radius: 10px; padding: 0.35rem 0.7rem; font-size: 0.85rem; margin-left: 1.2rem; transition: border-color 0.2s; }
+    .search-fake:hover { border-color: var(--accent); }
+
+    /* ---- Hero extra ---- */
+    .hero-cta { margin-top: 1.8rem; display: flex; gap: 0.8rem; justify-content: center; flex-wrap: wrap; }
+    .stats { display: flex; gap: 2.6rem; justify-content: center; flex-wrap: wrap; margin-top: 2.8rem; }
+    .stats b { display: block; font: 700 1.7rem 'Space Grotesk', sans-serif; background: linear-gradient(90deg, var(--accent), var(--accent-2)); -webkit-background-clip: text; background-clip: text; color: transparent; }
+    .stats span { font-size: 0.8rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; }
+
+    /* ---- Progreso / reveal / flash ---- */
+    #progress { position: fixed; top: 0; left: 0; height: 3px; width: 0; background: linear-gradient(90deg, var(--accent), var(--accent-2)); z-index: 50; transition: width 0.1s linear; }
+    .reveal { opacity: 0; transform: translateY(18px); transition: opacity 0.6s ease, transform 0.6s ease; }
+    .reveal.in { opacity: 1; transform: none; }
+    @media (prefers-reduced-motion: reduce) { .reveal { transition: none; opacity: 1; transform: none; } }
+    .flash { animation: flash 1.8s ease; }
+    @keyframes flash { 0%, 55% { box-shadow: 0 0 0 3px var(--accent); } 100% { box-shadow: 0 0 0 0 transparent; } }
+
+    /* ---- Overlays (buscador y modal) ---- */
+    .overlay { position: fixed; inset: 0; background: rgba(5, 5, 12, 0.6); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); z-index: 60; display: none; align-items: flex-start; justify-content: center; padding: 11vh 1rem 2rem; }
+    .overlay.open { display: flex; }
+    .panel { width: 100%; max-width: 560px; background: var(--surface); border: 1px solid var(--border); border-radius: 16px; overflow: hidden; box-shadow: 0 30px 80px rgba(0, 0, 0, 0.55); }
+    #search-input { width: 100%; padding: 1rem 1.2rem; background: transparent; border: none; outline: none; color: var(--text); font: 400 1rem 'Inter', sans-serif; border-bottom: 1px solid var(--border); }
+    #search-results { max-height: 52vh; overflow: auto; }
+    .result { padding: 0.7rem 1.2rem; cursor: pointer; display: flex; justify-content: space-between; align-items: baseline; gap: 1rem; }
+    .result:hover, .result.sel { background: var(--surface-2); }
+    .result .type { color: var(--accent-soft); font-size: 0.73rem; text-transform: uppercase; letter-spacing: 0.06em; white-space: nowrap; }
+    .empty { padding: 1rem 1.2rem; color: var(--muted); font-size: 0.9rem; }
+    .modal-body { padding: 1.5rem 1.5rem 1.6rem; }
+    .modal-body h3 { font-size: 1.35rem; margin-bottom: 0.2rem; }
+    .modal-body .meta { color: var(--accent-soft); font-size: 0.82rem; text-transform: uppercase; letter-spacing: 0.08em; }
+    .modal-body p { color: var(--muted); margin: 0.8rem 0 1.2rem; font-size: 0.95rem; }
+    .modal-actions { display: flex; gap: 0.6rem; flex-wrap: wrap; }
+    .modal-close { float: right; cursor: pointer; background: none; border: none; color: var(--muted); font-size: 1.2rem; }
+
+    /* ---- Tarjetas: favoritos y play ---- */
+    .card .fav, .card .hear { cursor: pointer; background: none; border: none; font-size: 1rem; opacity: 0.45; transition: opacity 0.2s, transform 0.2s; padding: 0; line-height: 1; }
+    .card .fav:hover, .card .hear:hover { opacity: 1; transform: scale(1.15); }
+    .card .fav.on { opacity: 1; }
+    .card-tools { display: flex; gap: 0.5rem; align-items: center; }
+    .chip { cursor: pointer; }
+    .filter-row { display: flex; gap: 0.6rem; margin: -1.6rem 0 1.6rem; flex-wrap: wrap; }
+    .filter-row .btn { padding: 0.4rem 0.95rem; font-size: 0.82rem; }
+    .filter-row .btn.active { border-color: var(--accent); color: var(--accent-soft); }
+
+    /* ---- Estudio de ritmos ---- */
+    .studio { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 1.5rem; }
+    .transport { display: flex; gap: 0.8rem; align-items: center; flex-wrap: wrap; margin-bottom: 1.2rem; }
+    .transport select { background: var(--surface-2); border: 1px solid var(--border); color: var(--text); border-radius: 10px; padding: 0.5rem 0.8rem; font: 500 0.88rem 'Inter', sans-serif; cursor: pointer; }
+    .transport label { font-size: 0.82rem; color: var(--muted); display: flex; align-items: center; gap: 0.5rem; }
+    .transport input[type="range"] { accent-color: var(--accent); }
+    #bpm-val { color: var(--accent-soft); font-weight: 600; min-width: 3.2em; }
+    .seq-wrap { overflow-x: auto; padding-bottom: 0.4rem; }
+    .seq { display: grid; grid-template-columns: 72px repeat(16, minmax(24px, 1fr)); gap: 4px; align-items: center; min-width: 560px; }
+    .track-label { font-size: 0.7rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.05em; }
+    .cell { aspect-ratio: 1; border-radius: 6px; background: var(--surface-2); border: 1px solid var(--border); cursor: pointer; transition: background 0.1s; padding: 0; }
+    .cell.beat { border-color: rgba(167, 139, 250, 0.35); }
+    .cell.on { background: linear-gradient(135deg, var(--accent), var(--accent-2)); border-color: transparent; }
+    .cell.playhead { outline: 2px solid var(--accent-soft); outline-offset: 1px; }
+    #viz { width: 100%; height: 64px; display: block; margin-top: 1.1rem; border-radius: 10px; background: var(--surface-2); }
+    .studio-hint { font-size: 0.82rem; color: var(--muted); margin-top: 0.8rem; }
+
+    /* ---- Quiz ---- */
+    .quiz-box { max-width: 640px; margin: 0 auto; background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 1.7rem; }
+    .quiz-top { display: flex; justify-content: space-between; align-items: baseline; gap: 1rem; color: var(--muted); font-size: 0.85rem; }
+    .q-bar { height: 6px; border-radius: 99px; background: var(--surface-2); margin: 0.9rem 0 1.3rem; overflow: hidden; }
+    .q-bar i { display: block; height: 100%; width: 0; background: linear-gradient(90deg, var(--accent), var(--accent-2)); transition: width 0.3s; }
+    #q-text { font-size: 1.15rem; font-family: 'Space Grotesk', sans-serif; }
+    .q-opt { display: block; width: 100%; text-align: left; margin-top: 0.6rem; padding: 0.8rem 1rem; border-radius: 10px; border: 1px solid var(--border); background: var(--surface-2); color: var(--text); cursor: pointer; font: 500 0.95rem 'Inter', sans-serif; transition: border-color 0.15s; }
+    .q-opt:hover:not(:disabled) { border-color: var(--accent); }
+    .q-opt:disabled { cursor: default; }
+    .q-opt.ok { border-color: #34d399; background: rgba(52, 211, 153, 0.14); }
+    .q-opt.bad { border-color: #f87171; background: rgba(248, 113, 113, 0.14); }
+    .q-note { margin-top: 0.9rem; font-size: 0.88rem; color: var(--muted); min-height: 1.4em; }
+    #q-result { text-align: center; }
+    #q-result .big { font: 700 2.6rem 'Space Grotesk', sans-serif; background: linear-gradient(90deg, var(--accent), var(--accent-2)); -webkit-background-clip: text; background-clip: text; color: transparent; }
+
+    /* ---- Toast y volver arriba ---- */
+    #toast { position: fixed; bottom: 1.4rem; left: 50%; transform: translateX(-50%) translateY(16px); opacity: 0; transition: opacity 0.25s, transform 0.25s; background: var(--surface); border: 1px solid var(--border); color: var(--text); padding: 0.6rem 1.15rem; border-radius: 999px; font-size: 0.88rem; z-index: 70; pointer-events: none; max-width: 90vw; }
+    #toast.show { opacity: 1; transform: translateX(-50%); }
+    #totop { position: fixed; right: 1.2rem; bottom: 1.2rem; z-index: 40; width: 42px; height: 42px; border-radius: 50%; border: 1px solid var(--border); background: var(--surface); color: var(--text); font-size: 1.1rem; cursor: pointer; display: none; align-items: center; justify-content: center; box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35); }
+    #totop.show { display: inline-flex; }
+
+    @media (max-width: 700px) {
+      .search-fake .kbd, .search-fake .label { display: none; }
+      .stats { gap: 1.6rem; }
+      .nav-links a[data-opt] { display: none; }
+    }
   </style>
 </head>
 <body>
 
+  <div id="progress" aria-hidden="true"></div>
+
   <nav>
     <div class="nav-inner">
       <a class="brand" href="#top">🎵 Cultura <span>Musical</span></a>
-      <div class="nav-links">
-        <a href="#historia">Historia</a>
-        <a href="#generos">Géneros</a>
+      <div class="nav-links nav-actions">
+        <a href="#historia" data-opt>Historia</a>
+        <a href="#generos" data-opt>Géneros</a>
+        <a href="#estudio">Estudio</a>
+        <a href="#quiz">Quiz</a>
+        <button class="search-fake" id="open-search" type="button" aria-label="Buscar">
+          🔍 <span class="label">Buscar</span> <span class="kbd">Ctrl K</span>
+        </button>
+        <button class="icon-btn" id="theme-toggle" type="button" title="Cambiar tema" aria-label="Cambiar tema">🌙</button>
+        <button class="icon-btn" id="share-btn" type="button" title="Compartir" aria-label="Compartir">📤</button>
       </div>
     </div>
   </nav>
@@ -142,6 +280,16 @@
     <span class="kicker">De los huesos tallados al streaming</span>
     <h1>La música a través<br />de <span>los años</span></h1>
     <p>Un recorrido por la cultura musical: cómo nació, cómo evolucionó década a década y cómo cada género se ramificó en decenas de subgéneros que hoy suenan en todo el mundo.</p>
+    <div class="hero-cta">
+      <a class="btn primary" href="#estudio">🎛️ Probar el estudio de ritmos</a>
+      <a class="btn" href="#quiz">🧠 Hacer el quiz</a>
+    </div>
+    <div class="stats" aria-label="Cifras del sitio">
+      <div><b>40.000</b><span>años de música</span></div>
+      <div><b>10</b><span>épocas</span></div>
+      <div><b>13</b><span>familias</span></div>
+      <div><b id="stat-sub">110+</b><span>subgéneros</span></div>
+    </div>
   </header>
 
   <main>
@@ -217,7 +365,12 @@
     <section id="generos">
       <div class="container">
         <h2>Las ramas de cada <em>género</em></h2>
-        <p class="section-sub">Cada género es un árbol: nace de una raíz y no deja de dividirse. Estas son sus familias y subgéneros principales.</p>
+        <p class="section-sub">Cada género es un árbol: nace de una raíz y no deja de dividirse. Estas son sus familias y subgéneros principales. Toca cualquier subgénero para saber más, marca tus favoritos con ⭐ y pulsa ▶ para oír su ritmo.</p>
+
+        <div class="filter-row" role="group" aria-label="Filtrar géneros">
+          <button class="btn active" id="f-all" type="button">Todos</button>
+          <button class="btn" id="f-fav" type="button">⭐ Favoritos <span id="fav-count"></span></button>
+        </div>
 
         <div class="grid">
           <div class="card">
@@ -328,12 +481,583 @@
         <p class="closing">Cada rama sigue dividiéndose y mezclándose con las demás. <strong>La música es un árbol que nunca deja de crecer</strong> — y todos escuchamos alguna de sus ramas. 🎶</p>
       </div>
     </section>
+
+    <section id="estudio">
+      <div class="container">
+        <h2>Estudio de <em>ritmos</em></h2>
+        <p class="section-sub">Cada género tiene un ADN rítmico. Elige un preset, dale a reproducir y edita los pasos para crear tu propio beat — todo suena en tu navegador, sin descargar nada.</p>
+
+        <div class="studio reveal">
+          <div class="transport">
+            <button class="btn primary" id="play-btn" type="button">▶ Reproducir</button>
+            <select id="preset-sel" aria-label="Preset de género">
+              <option value="rock">🎸 Rock</option>
+              <option value="metal">🤘 Metal</option>
+              <option value="punk">🧷 Punk</option>
+              <option value="hiphop">🎤 Hip-Hop</option>
+              <option value="reggaeton">🔥 Reggaetón</option>
+              <option value="house">🎛️ House</option>
+              <option value="techno">🌐 Techno</option>
+            </select>
+            <label>Tempo <input type="range" id="bpm" min="60" max="200" value="120" /> <span id="bpm-val">120 BPM</span></label>
+            <button class="btn" id="clear-btn" type="button">Limpiar</button>
+          </div>
+          <div class="seq-wrap"><div class="seq" id="seq"></div></div>
+          <canvas id="viz" height="64" aria-hidden="true"></canvas>
+          <p class="studio-hint">💡 Consejo: el bombo marca el pulso, la caja responde, el hi-hat rellena y el bajo le da el groove. Así se construye casi toda la música popular.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="quiz">
+      <div class="container">
+        <h2>¿Cuánto sabes de <em>música</em>?</h2>
+        <p class="section-sub">Diez preguntas sobre todo lo que acabas de leer. Tu mejor marca se guarda en este dispositivo.</p>
+
+        <div class="quiz-box reveal">
+          <div id="q-game">
+            <div class="quiz-top"><span id="q-step">Pregunta 1 de 10</span><span id="q-score">Aciertos: 0 · Mejor: <b id="q-best">—</b></span></div>
+            <div class="q-bar"><i id="q-fill"></i></div>
+            <p id="q-text"></p>
+            <div id="q-opts"></div>
+            <p class="q-note" id="q-note"></p>
+          </div>
+          <div id="q-result" hidden>
+            <p class="big" id="q-final"></p>
+            <p id="q-msg" style="color:var(--muted); margin:0.6rem 0 1.4rem;"></p>
+            <div class="modal-actions" style="justify-content:center;">
+              <button class="btn primary" id="q-again" type="button">🔁 Jugar otra vez</button>
+              <button class="btn" id="q-share" type="button">📤 Compartir resultado</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
   </main>
 
   <footer>
     <div>🎵 Cultura Musical — de los orígenes a la actualidad</div>
-    <div class="note">Hecha con ♥ y mucho volumen · 2026</div>
+    <div class="note">Hecha con ♥ y mucho volumen · 2026 · Atajos: <span class="kbd">Ctrl K</span> buscar · <span class="kbd">T</span> tema · Funciona sin conexión 📶</div>
   </footer>
+
+  <div class="overlay" id="search" role="dialog" aria-modal="true" aria-label="Buscador">
+    <div class="panel">
+      <input id="search-input" type="text" placeholder="Busca una época, género o subgénero…" autocomplete="off" />
+      <div id="search-results"></div>
+    </div>
+  </div>
+
+  <div class="overlay" id="modal" role="dialog" aria-modal="true">
+    <div class="panel modal-body">
+      <button class="modal-close" id="m-close" type="button" aria-label="Cerrar">✕</button>
+      <h3 id="m-title"></h3>
+      <div class="meta" id="m-meta"></div>
+      <p id="m-desc"></p>
+      <div class="modal-actions">
+        <button class="btn primary" id="m-hear" type="button">▶ Oír el ritmo</button>
+        <a class="btn" id="m-wiki" href="#" target="_blank" rel="noopener">📖 Ver en Wikipedia</a>
+      </div>
+    </div>
+  </div>
+
+  <div id="toast" role="status"></div>
+  <button id="totop" type="button" aria-label="Volver arriba">↑</button>
+
+  <script>
+  (function () {
+    'use strict';
+    var $ = function (s, c) { return (c || document).querySelector(s); };
+    var $$ = function (s, c) { return Array.prototype.slice.call((c || document).querySelectorAll(s)); };
+
+    /* ---------- Toast ---------- */
+    var toastT;
+    function toast(msg) {
+      var t = $('#toast');
+      t.textContent = msg;
+      t.classList.add('show');
+      clearTimeout(toastT);
+      toastT = setTimeout(function () { t.classList.remove('show'); }, 2400);
+    }
+
+    /* ---------- Tema ---------- */
+    var themeBtn = $('#theme-toggle');
+    function applyTheme(mode) {
+      document.documentElement.dataset.theme = mode;
+      localStorage.setItem('cm-theme', mode);
+      themeBtn.textContent = mode === 'dark' ? '🌙' : '☀️';
+      var m = document.querySelector('meta[name="theme-color"]');
+      if (m) m.setAttribute('content', mode === 'dark' ? '#0a0a0f' : '#f6f6fb');
+    }
+    applyTheme(document.documentElement.dataset.theme || 'dark');
+    themeBtn.addEventListener('click', function () {
+      applyTheme(document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark');
+    });
+
+    /* ---------- Compartir ---------- */
+    function share(text) {
+      var data = { title: document.title, text: text, url: location.href.split('#')[0] };
+      if (navigator.share) { navigator.share(data).catch(function () {}); }
+      else if (navigator.clipboard) {
+        navigator.clipboard.writeText(text + ' ' + data.url).then(function () { toast('📋 Enlace copiado al portapapeles'); });
+      }
+    }
+    $('#share-btn').addEventListener('click', function () { share('🎵 Descubre la historia de la música:'); });
+
+    /* ---------- Progreso, volver arriba, animaciones ---------- */
+    var totop = $('#totop');
+    window.addEventListener('scroll', function () {
+      var h = document.documentElement;
+      var p = h.scrollTop / (h.scrollHeight - h.clientHeight) * 100;
+      $('#progress').style.width = p + '%';
+      totop.classList.toggle('show', h.scrollTop > 600);
+    }, { passive: true });
+    totop.addEventListener('click', function () { window.scrollTo({ top: 0, behavior: 'smooth' }); });
+
+    $$('.era, .card').forEach(function (el) { el.classList.add('reveal'); });
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
+    }, { threshold: 0.12 });
+    $$('.reveal').forEach(function (el) { io.observe(el); });
+
+    $('#stat-sub').textContent = String($$('.chip').length);
+
+    /* ---------- Estudio de ritmos (Web Audio) ---------- */
+    var STEPS = 16;
+    var TRACKS = ['Bombo', 'Caja', 'Hi-hat', 'Bajo'];
+    var PRESETS = {
+      rock:      { bpm: 120, root: 82.41, k: '1000000010100000', s: '0000100000001000', h: '1010101010101010', b: '1010101010101010' },
+      metal:     { bpm: 160, root: 82.41, k: '1111111111111111', s: '0000100000001000', h: '1010101010101010', b: '1011001010110010' },
+      punk:      { bpm: 184, root: 110,   k: '1000001010000010', s: '0000100000001000', h: '1010101010101010', b: '1010101010101010' },
+      hiphop:    { bpm: 90,  root: 110,   k: '1000000100100000', s: '0000100000001000', h: '1010101010101011', b: '1000000000100000', bf: { 10: 130.81 } },
+      reggaeton: { bpm: 96,  root: 110,   k: '1000100010001000', s: '0001001000010010', h: '1010101010101010', b: '1000100010001000', bf: { 8: 98, 12: 98 } },
+      house:     { bpm: 124, root: 110,   k: '1000100010001000', s: '0000100000001000', h: '0010001000100010', b: '0010001000100010' },
+      techno:    { bpm: 132, root: 98,    k: '1000100010001000', s: '0000100000001000', h: '1010101010101010', b: '1001000110010010' }
+    };
+    var pattern = [[], [], [], []];
+    var bassFreq = [];
+    var bpm = 120, playing = false, step = 0, nextTime = 0, timer = null;
+    var actx = null, master = null, analyser = null, noiseBuf = null, uiQueue = [];
+
+    var seqEl = $('#seq');
+    TRACKS.forEach(function (name, t) {
+      var lab = document.createElement('div');
+      lab.className = 'track-label';
+      lab.textContent = name;
+      seqEl.appendChild(lab);
+      for (var i = 0; i < STEPS; i++) {
+        var c = document.createElement('button');
+        c.type = 'button';
+        c.className = 'cell' + (i % 4 === 0 ? ' beat' : '');
+        c.dataset.t = t; c.dataset.i = i;
+        c.setAttribute('aria-label', name + ' paso ' + (i + 1));
+        c.addEventListener('click', function () {
+          var tt = +this.dataset.t, ii = +this.dataset.i;
+          pattern[tt][ii] = !pattern[tt][ii];
+          if (tt === 3 && pattern[3][ii] && !bassFreq[ii]) bassFreq[ii] = currentRoot();
+          this.classList.toggle('on', pattern[tt][ii]);
+        });
+        seqEl.appendChild(c);
+      }
+    });
+
+    function currentRoot() { return PRESETS[$('#preset-sel').value].root; }
+    function paintPattern() {
+      $$('.cell', seqEl).forEach(function (c) { c.classList.toggle('on', !!pattern[+c.dataset.t][+c.dataset.i]); });
+    }
+    function loadPreset(name) {
+      var p = PRESETS[name];
+      ['k', 's', 'h', 'b'].forEach(function (key, t) {
+        pattern[t] = p[key].split('').map(function (x) { return x === '1'; });
+      });
+      bassFreq = [];
+      for (var i = 0; i < STEPS; i++) bassFreq[i] = (p.bf && p.bf[i]) || p.root;
+      bpm = p.bpm;
+      $('#bpm').value = bpm;
+      $('#bpm-val').textContent = bpm + ' BPM';
+      paintPattern();
+    }
+    loadPreset('rock');
+    $('#preset-sel').addEventListener('change', function () { loadPreset(this.value); toast('🎵 Preset cargado: ' + this.options[this.selectedIndex].text); });
+    $('#bpm').addEventListener('input', function () { bpm = +this.value; $('#bpm-val').textContent = bpm + ' BPM'; });
+    $('#clear-btn').addEventListener('click', function () {
+      pattern = pattern.map(function () { return Array(STEPS).fill(false); });
+      paintPattern();
+    });
+
+    function ensureAudio() {
+      if (actx) return;
+      var AC = window.AudioContext || window.webkitAudioContext;
+      actx = new AC();
+      master = actx.createGain();
+      master.gain.value = 0.85;
+      analyser = actx.createAnalyser();
+      analyser.fftSize = 64;
+      master.connect(analyser);
+      analyser.connect(actx.destination);
+      noiseBuf = actx.createBuffer(1, actx.sampleRate, actx.sampleRate);
+      var d = noiseBuf.getChannelData(0);
+      for (var i = 0; i < d.length; i++) d[i] = Math.random() * 2 - 1;
+    }
+    function env(t, peak, dur) {
+      var g = actx.createGain();
+      g.gain.setValueAtTime(peak, t);
+      g.gain.exponentialRampToValueAtTime(0.001, t + dur);
+      g.connect(master);
+      return g;
+    }
+    function playKick(t) {
+      var o = actx.createOscillator();
+      o.type = 'sine';
+      o.frequency.setValueAtTime(150, t);
+      o.frequency.exponentialRampToValueAtTime(42, t + 0.12);
+      o.connect(env(t, 1, 0.26));
+      o.start(t); o.stop(t + 0.3);
+    }
+    function noise(t, filterType, freq, peak, dur) {
+      var src = actx.createBufferSource();
+      src.buffer = noiseBuf;
+      var f = actx.createBiquadFilter();
+      f.type = filterType; f.frequency.value = freq;
+      src.connect(f); f.connect(env(t, peak, dur));
+      src.start(t); src.stop(t + dur + 0.05);
+    }
+    function playSnare(t) {
+      noise(t, 'bandpass', 1800, 0.7, 0.18);
+      var o = actx.createOscillator();
+      o.type = 'triangle'; o.frequency.value = 190;
+      o.connect(env(t, 0.35, 0.1));
+      o.start(t); o.stop(t + 0.12);
+    }
+    function playHat(t) { noise(t, 'highpass', 7500, 0.32, 0.05); }
+    function playBass(t, freq) {
+      var o = actx.createOscillator();
+      o.type = 'square'; o.frequency.value = freq || 110;
+      var f = actx.createBiquadFilter();
+      f.type = 'lowpass'; f.frequency.value = 700;
+      o.connect(f); f.connect(env(t, 0.3, 0.22));
+      o.start(t); o.stop(t + 0.25);
+    }
+    function schedule() {
+      while (nextTime < actx.currentTime + 0.12) {
+        if (pattern[0][step]) playKick(nextTime);
+        if (pattern[1][step]) playSnare(nextTime);
+        if (pattern[2][step]) playHat(nextTime);
+        if (pattern[3][step]) playBass(nextTime, bassFreq[step]);
+        uiQueue.push({ step: step, time: nextTime });
+        nextTime += 60 / bpm / 4;
+        step = (step + 1) % STEPS;
+      }
+    }
+    var viz = $('#viz'), vctx = viz.getContext('2d');
+    function drawFrame() {
+      if (!playing) return;
+      while (uiQueue.length && uiQueue[0].time <= actx.currentTime) {
+        var s = uiQueue.shift().step;
+        $$('.cell.playhead', seqEl).forEach(function (c) { c.classList.remove('playhead'); });
+        $$('.cell[data-i="' + s + '"]', seqEl).forEach(function (c) { c.classList.add('playhead'); });
+      }
+      var w = viz.width = viz.clientWidth, h = viz.height;
+      var data = new Uint8Array(analyser.frequencyBinCount);
+      analyser.getByteFrequencyData(data);
+      vctx.clearRect(0, 0, w, h);
+      var bw = w / data.length;
+      for (var i = 0; i < data.length; i++) {
+        var v = data[i] / 255;
+        var grad = vctx.createLinearGradient(0, h, 0, 0);
+        grad.addColorStop(0, '#a78bfa'); grad.addColorStop(1, '#f472b6');
+        vctx.fillStyle = grad;
+        vctx.fillRect(i * bw + 1, h - v * h, bw - 2, v * h);
+      }
+      requestAnimationFrame(drawFrame);
+    }
+    var playBtn = $('#play-btn');
+    function startPlay() {
+      ensureAudio();
+      if (actx.state === 'suspended') actx.resume();
+      playing = true; step = 0; nextTime = actx.currentTime + 0.06; uiQueue = [];
+      timer = setInterval(schedule, 25);
+      playBtn.textContent = '⏸ Detener';
+      requestAnimationFrame(drawFrame);
+    }
+    function stopPlay() {
+      playing = false;
+      clearInterval(timer);
+      playBtn.textContent = '▶ Reproducir';
+      $$('.cell.playhead', seqEl).forEach(function (c) { c.classList.remove('playhead'); });
+      vctx.clearRect(0, 0, viz.width, viz.height);
+    }
+    playBtn.addEventListener('click', function () { playing ? stopPlay() : startPlay(); });
+
+    function hearPreset(name) {
+      $('#preset-sel').value = name;
+      loadPreset(name);
+      $('#estudio').scrollIntoView({ behavior: 'smooth' });
+      if (!playing) startPlay();
+    }
+
+    /* ---------- Tarjetas: favoritos y escuchar ---------- */
+    var GENRE_PRESET = { 'Rock': 'rock', 'Metal': 'metal', 'Punk': 'punk', 'Hip-Hop': 'hiphop', 'Electrónica': 'techno', 'Música latina': 'reggaeton', 'Pop': 'house' };
+    var favs = [];
+    try { favs = JSON.parse(localStorage.getItem('cm-favs') || '[]'); } catch (e) { favs = []; }
+    function saveFavs() {
+      localStorage.setItem('cm-favs', JSON.stringify(favs));
+      $('#fav-count').textContent = favs.length ? '(' + favs.length + ')' : '';
+    }
+    function cardName(card) { return $('h3', card).textContent.replace(/^[^ ]+ /, '').trim(); }
+    $$('.card').forEach(function (card) {
+      var name = cardName(card);
+      var tools = document.createElement('div');
+      tools.className = 'card-tools';
+      var preset = GENRE_PRESET[name];
+      if (preset) {
+        var hear = document.createElement('button');
+        hear.type = 'button'; hear.className = 'hear'; hear.textContent = '▶';
+        hear.title = 'Oír el ritmo de ' + name;
+        hear.addEventListener('click', function () { hearPreset(preset); });
+        tools.appendChild(hear);
+      }
+      var fav = document.createElement('button');
+      fav.type = 'button'; fav.className = 'fav';
+      fav.title = 'Marcar como favorito';
+      fav.textContent = favs.indexOf(name) > -1 ? '⭐' : '☆';
+      fav.classList.toggle('on', favs.indexOf(name) > -1);
+      fav.addEventListener('click', function () {
+        var i = favs.indexOf(name);
+        if (i > -1) { favs.splice(i, 1); fav.textContent = '☆'; fav.classList.remove('on'); toast('Quitado de favoritos'); }
+        else { favs.push(name); fav.textContent = '⭐'; fav.classList.add('on'); toast('⭐ ' + name + ' añadido a favoritos'); }
+        saveFavs();
+      });
+      tools.appendChild(fav);
+      $('.card-head', card).appendChild(tools);
+    });
+    saveFavs();
+    function setFilter(favOnly) {
+      $('#f-all').classList.toggle('active', !favOnly);
+      $('#f-fav').classList.toggle('active', favOnly);
+      $$('.card').forEach(function (card) {
+        card.style.display = (!favOnly || favs.indexOf(cardName(card)) > -1) ? '' : 'none';
+      });
+      if (favOnly && !favs.length) toast('Aún no tienes favoritos: marca alguno con ☆');
+    }
+    $('#f-all').addEventListener('click', function () { setFilter(false); });
+    $('#f-fav').addEventListener('click', function () { setFilter(true); });
+
+    /* ---------- Modal de subgéneros ---------- */
+    var DESC = {
+      'Grunge': 'Nació en Seattle a finales de los 80: guitarras sucias, letras introspectivas y desprecio por el estrellato. Nirvana, Pearl Jam y Soundgarden lo llevaron al nº 1.',
+      'Metalcore': 'Fusión de metal extremo y hardcore punk: riffs pesados, breakdowns y voces que alternan gritos y melodía. Bring Me The Horizon, Killswitch Engage y Architects son referentes.',
+      'Deathcore': 'La rama más brutal del metalcore, mezclada con death metal: blast beats, guturales profundos y breakdowns demoledores. El primer BMTH, Suicide Silence, Whitechapel.',
+      'Emo': 'Del hardcore de Washington D.C. a estadios llenos: emoción a flor de piel, melodía y estética propia. My Chemical Romance y Jimmy Eat World marcaron a una generación.',
+      'Trap': 'Nació en Atlanta: hi-hats en ametralladora, graves 808 profundos y letras de calle. Hoy es el sonido dominante del rap mundial.',
+      'Reggaetón': 'Del dembow jamaicano al under de Puerto Rico y de ahí al mundo entero. Daddy Yankee lo encendió y Bad Bunny lo volvió global.',
+      'K-pop': 'La industria pop de Corea del Sur: producción perfecta, coreografías milimétricas y fandoms globales. BTS y BLACKPINK lo convirtieron en fenómeno mundial.',
+      'House': 'Nació en los clubes de Chicago a inicios de los 80 sobre las cenizas del disco: bombo en cada tiempo y una promesa de pista de baile infinita.',
+      'Techno': 'Detroit imaginó el futuro con máquinas: repetición hipnótica, frialdad industrial y alma funk. La base de toda la cultura de clubes.',
+      'Thrash': 'Velocidad y precisión: el metal acelerado por el punk. Metallica, Slayer, Megadeth y Anthrax son sus "cuatro grandes".',
+      'Nu metal': 'Metal + hip-hop + angustia noventera: afinaciones graves, DJ en la banda y estribillos enormes. Korn, Limp Bizkit y Linkin Park llenaron estadios.',
+      'Screamo': 'La rama más intensa del emo: gritos desgarrados, dinámicas caóticas y emotividad extrema.',
+      'Post-hardcore': 'Toma la energía del hardcore y la retuerce con experimentación, melodía y dinámicas. At the Drive-In, Glassjaw y el BMTH de "Suicide Season".',
+      'Djent': 'Metal progresivo moderno definido por un sonido de guitarra percusivo y polirritmias imposibles. Meshuggah lo inventó; Periphery le puso nombre.',
+      'Synth-pop': 'El pop hecho con sintetizadores que definió los 80: Depeche Mode, a-ha y New Order. Hoy vive un eterno revival.',
+      'Boom bap': 'El sonido clásico del rap de Nueva York en los 90: samples de jazz y soul, baterías contundentes y lírica afilada.',
+      'Drill': 'Del sur de Chicago al Reino Unido: beats oscuros y deslizantes, y crónicas crudas de la calle.',
+      'Dubstep': 'Nació en Londres con graves envolventes y espacios oscuros; luego el "brostep" de Skrillex lo volvió masivo.',
+      'Britpop': 'La respuesta británica al grunge: melodía, orgullo local y la rivalidad Oasis vs. Blur que partió los 90 en dos.',
+      'Corridos tumbados': 'El corrido mexicano fusionado con trap y sierreño: guitarras acústicas, tuba y actitud urbana. Peso Pluma y Natanael Cano lo llevaron al top global.',
+      'Hyperpop': 'El pop llevado al extremo digital: voces pitcheadas, saturación y estética de internet. PC Music y 100 gecs abrieron el camino.'
+    };
+    var modal = $('#modal');
+    function openChip(chipText, family, preset) {
+      $('#m-title').textContent = chipText;
+      $('#m-meta').textContent = 'Subgénero · Familia: ' + family;
+      $('#m-desc').textContent = DESC[chipText] || ('Rama de la familia ' + family + '. Cada subgénero nace cuando una escena local le da un giro propio al sonido de sus padres: nuevos ritmos, nuevas letras, nueva identidad. Explora su historia completa en Wikipedia.');
+      $('#m-wiki').href = 'https://es.wikipedia.org/wiki/Special:Search?search=' + encodeURIComponent(chipText + ' música');
+      var hearBtn = $('#m-hear');
+      hearBtn.style.display = preset ? '' : 'none';
+      hearBtn.onclick = function () { closeOverlays(); hearPreset(preset); };
+      modal.classList.add('open');
+    }
+    $$('.card').forEach(function (card) {
+      var family = cardName(card);
+      var preset = GENRE_PRESET[family];
+      $$('.chip', card).forEach(function (chip) {
+        chip.setAttribute('role', 'button');
+        chip.setAttribute('tabindex', '0');
+        chip.addEventListener('click', function () { openChip(chip.textContent, family, preset); });
+        chip.addEventListener('keydown', function (e) { if (e.key === 'Enter') openChip(chip.textContent, family, preset); });
+      });
+    });
+    $('#m-close').addEventListener('click', function () { modal.classList.remove('open'); });
+
+    /* ---------- Buscador global ---------- */
+    var searchOv = $('#search'), sInput = $('#search-input'), sResults = $('#search-results');
+    var INDEX = [], sel = 0, current = [];
+    $$('.era').forEach(function (era) {
+      INDEX.push({ title: $('h3', era).textContent, meta: $('.year', era).textContent, type: 'Época', el: era });
+    });
+    $$('.card').forEach(function (card) {
+      var family = cardName(card);
+      INDEX.push({ title: $('h3', card).textContent, meta: 'desde ' + $('.since', card).textContent, type: 'Género', el: card });
+      $$('.chip', card).forEach(function (chip) {
+        INDEX.push({ title: chip.textContent, meta: family, type: 'Subgénero', el: chip });
+      });
+    });
+    function norm(s) { return s.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, ''); }
+    function renderResults(q) {
+      var nq = norm(q.trim());
+      current = !nq ? INDEX.slice(0, 8) : INDEX.filter(function (it) { return norm(it.title).indexOf(nq) > -1 || norm(it.meta).indexOf(nq) > -1; }).slice(0, 12);
+      sel = 0;
+      sResults.innerHTML = '';
+      if (!current.length) {
+        var e = document.createElement('div');
+        e.className = 'empty';
+        e.textContent = 'Sin resultados para "' + q + '"';
+        sResults.appendChild(e);
+        return;
+      }
+      current.forEach(function (it, i) {
+        var r = document.createElement('div');
+        r.className = 'result' + (i === 0 ? ' sel' : '');
+        var left = document.createElement('span');
+        left.textContent = it.title + '  ';
+        var meta = document.createElement('small');
+        meta.style.color = 'var(--muted)';
+        meta.textContent = it.meta;
+        left.appendChild(meta);
+        var type = document.createElement('span');
+        type.className = 'type';
+        type.textContent = it.type;
+        r.appendChild(left); r.appendChild(type);
+        r.addEventListener('click', function () { goTo(it); });
+        sResults.appendChild(r);
+      });
+    }
+    function goTo(it) {
+      closeOverlays();
+      it.el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      it.el.classList.remove('flash');
+      void it.el.offsetWidth;
+      it.el.classList.add('flash');
+    }
+    function openSearch() {
+      searchOv.classList.add('open');
+      sInput.value = '';
+      renderResults('');
+      setTimeout(function () { sInput.focus(); }, 30);
+    }
+    function closeOverlays() {
+      searchOv.classList.remove('open');
+      modal.classList.remove('open');
+    }
+    $('#open-search').addEventListener('click', openSearch);
+    sInput.addEventListener('input', function () { renderResults(this.value); });
+    sInput.addEventListener('keydown', function (e) {
+      var rows = $$('.result', sResults);
+      if (e.key === 'ArrowDown') { e.preventDefault(); sel = Math.min(sel + 1, rows.length - 1); }
+      else if (e.key === 'ArrowUp') { e.preventDefault(); sel = Math.max(sel - 1, 0); }
+      else if (e.key === 'Enter') { if (current[sel]) goTo(current[sel]); return; }
+      else return;
+      rows.forEach(function (r, i) { r.classList.toggle('sel', i === sel); });
+      if (rows[sel]) rows[sel].scrollIntoView({ block: 'nearest' });
+    });
+    [searchOv, modal].forEach(function (ov) {
+      ov.addEventListener('click', function (e) { if (e.target === ov) closeOverlays(); });
+    });
+    document.addEventListener('keydown', function (e) {
+      if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'k') { e.preventDefault(); openSearch(); }
+      else if (e.key === 'Escape') closeOverlays();
+      else if (e.key.toLowerCase() === 't' && !e.ctrlKey && !e.metaKey && !/INPUT|TEXTAREA|SELECT/.test(document.activeElement.tagName)) themeBtn.click();
+    });
+
+    /* ---------- Quiz ---------- */
+    var QS = [
+      { q: '¿Qué banda fundó el heavy metal en 1970?', o: ['Led Zeppelin', 'Black Sabbath', 'Deep Purple', 'Metallica'], a: 1, n: 'Su disco debut homónimo (1970) se considera el nacimiento del metal.' },
+      { q: '¿Dónde y cuándo nació el hip-hop?', o: ['Los Ángeles, 1980', 'Chicago, 1975', 'El Bronx (Nueva York), 1973', 'Detroit, 1969'], a: 2, n: 'DJ Kool Herc lo encendió en una fiesta en Sedgwick Avenue, 1973.' },
+      { q: '¿Quién inventó la notación musical moderna?', o: ['Guido d’Arezzo', 'J. S. Bach', 'Pitágoras', 'Beethoven'], a: 0, n: 'Un monje del siglo XI: gracias a él la música se puede escribir.' },
+      { q: '¿Cuál es el instrumento más antiguo que se conserva?', o: ['Un tambor de piel', 'Una lira sumeria', 'Una flauta de hueso', 'Un cuerno de caza'], a: 2, n: 'Flautas de hueso de hace unos 40.000 años, halladas en cuevas de Europa.' },
+      { q: '¿Qué género nació en el delta del Misisipi?', o: ['El jazz', 'El blues', 'El country', 'El góspel'], a: 1, n: 'El lamento del delta es la raíz de casi toda la música popular moderna.' },
+      { q: 'El metalcore es una fusión de metal extremo con…', o: ['Hardcore punk', 'Jazz fusión', 'Synth-pop', 'Reggae'], a: 0, n: 'Metal + hardcore punk: la fórmula de Bring Me The Horizon o Killswitch Engage.' },
+      { q: '¿En qué ciudad nació el house?', o: ['Berlín', 'Nueva York', 'Detroit', 'Chicago'], a: 3, n: 'En los clubes de Chicago; el techno nació al lado, en Detroit.' },
+      { q: 'Bring Me The Horizon empezó su carrera tocando…', o: ['Britpop', 'Deathcore', 'Trap', 'Synthwave'], a: 1, n: '"Count Your Blessings" (2006) es puro deathcore; luego evolucionaron hacia el rock alternativo.' },
+      { q: '¿Qué artista globalizó el reggae?', o: ['Peter Tosh', 'Jimmy Cliff', 'Bob Marley', 'Sean Paul'], a: 2, n: 'Marley convirtió el sonido de Jamaica en un lenguaje universal.' },
+      { q: 'El "dembow" es la base rítmica de…', o: ['La salsa', 'El reggaetón', 'La cumbia', 'El flamenco'], a: 1, n: 'Ese patrón (bum-ch-bum-chick) viene del dancehall jamaicano.' }
+    ];
+    var qi = 0, qScore = 0, qOrder = [];
+    var best = localStorage.getItem('cm-best');
+    $('#q-best').textContent = best !== null ? best + '/10' : '—';
+    function shuffle(a) {
+      a = a.slice();
+      for (var i = a.length - 1; i > 0; i--) {
+        var j = Math.floor(Math.random() * (i + 1)), t = a[i]; a[i] = a[j]; a[j] = t;
+      }
+      return a;
+    }
+    function startQuiz() {
+      qi = 0; qScore = 0; qOrder = shuffle(QS);
+      $('#q-result').hidden = true;
+      $('#q-game').hidden = false;
+      renderQ();
+    }
+    function renderQ() {
+      var item = qOrder[qi];
+      $('#q-step').textContent = 'Pregunta ' + (qi + 1) + ' de ' + qOrder.length;
+      $('#q-score').innerHTML = 'Aciertos: ' + qScore + ' · Mejor: <b>' + (best !== null ? best + '/10' : '—') + '</b>';
+      $('#q-fill').style.width = (qi / qOrder.length * 100) + '%';
+      $('#q-text').textContent = item.q;
+      $('#q-note').textContent = '';
+      var box = $('#q-opts');
+      box.innerHTML = '';
+      item.o.forEach(function (opt, i) {
+        var b = document.createElement('button');
+        b.type = 'button'; b.className = 'q-opt'; b.textContent = opt;
+        b.addEventListener('click', function () { answer(i, b); });
+        box.appendChild(b);
+      });
+    }
+    function answer(i, btn) {
+      var item = qOrder[qi];
+      var opts = $$('.q-opt');
+      opts.forEach(function (o) { o.disabled = true; });
+      opts[item.a].classList.add('ok');
+      if (i === item.a) { qScore++; }
+      else { btn.classList.add('bad'); }
+      $('#q-note').textContent = (i === item.a ? '✅ ¡Correcto! ' : '❌ Casi. ') + item.n;
+      $('#q-fill').style.width = ((qi + 1) / qOrder.length * 100) + '%';
+      setTimeout(function () {
+        qi++;
+        if (qi < qOrder.length) renderQ(); else endQuiz();
+      }, 1700);
+    }
+    function endQuiz() {
+      $('#q-game').hidden = true;
+      $('#q-result').hidden = false;
+      $('#q-final').textContent = qScore + '/' + qOrder.length;
+      var msg = qScore >= 9 ? '🏆 Nivel enciclopedia musical. ¡Impresionante!'
+        : qScore >= 7 ? '🎸 Gran oído: dominas la historia de la música.'
+        : qScore >= 5 ? '🎧 Buen comienzo: vuelve a la línea del tiempo y sube tu marca.'
+        : '📻 Todo el mundo empieza por algún acorde. ¡Repasa y reintenta!';
+      $('#q-msg').textContent = msg;
+      if (best === null || qScore > +best) {
+        best = String(qScore);
+        localStorage.setItem('cm-best', best);
+        toast('🌟 ¡Nueva mejor marca: ' + qScore + '/10!');
+      }
+      $('#q-best').textContent = best + '/10';
+    }
+    $('#q-again').addEventListener('click', startQuiz);
+    $('#q-share').addEventListener('click', function () {
+      share('🎵 Saqué ' + qScore + '/10 en el quiz de Cultura Musical. ¿Puedes superarme?');
+    });
+    startQuiz();
+
+    /* ---------- PWA ---------- */
+    if ('serviceWorker' in navigator && (location.protocol === 'https:' || location.hostname === 'localhost')) {
+      window.addEventListener('load', function () {
+        navigator.serviceWorker.register('sw.js').catch(function () {});
+      });
+    }
+  })();
+  </script>
 
 </body>
 </html>

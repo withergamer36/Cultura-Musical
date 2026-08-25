@@ -209,6 +209,8 @@
     .filter-row { display: flex; gap: 0.6rem; margin: -1.6rem 0 1.6rem; flex-wrap: wrap; }
     .filter-row .btn { padding: 0.4rem 0.95rem; font-size: 0.82rem; }
     .filter-row .btn.active { border-color: var(--accent); color: var(--accent-soft); }
+    .nav-links a.active { color: var(--text); }
+    .era-play { padding: 0.32rem 0.85rem; font-size: 0.78rem; margin: 0.55rem 0 0.2rem; }
 
     /* ---- Estudio de ritmos ---- */
     .studio { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 1.5rem; }
@@ -370,6 +372,7 @@
         <div class="filter-row" role="group" aria-label="Filtrar géneros">
           <button class="btn active" id="f-all" type="button">Todos</button>
           <button class="btn" id="f-fav" type="button">⭐ Favoritos <span id="fav-count"></span></button>
+          <button class="btn" id="surprise" type="button" title="Descubre un subgénero al azar">🎲 Sorpréndeme</button>
         </div>
 
         <div class="grid">
@@ -501,6 +504,10 @@
             </select>
             <label>Tempo <input type="range" id="bpm" min="60" max="200" value="120" /> <span id="bpm-val">120 BPM</span></label>
             <button class="btn" id="clear-btn" type="button">Limpiar</button>
+            <button class="btn" id="rand-btn" type="button" title="Generar un beat aleatorio">🎲 Aleatorio</button>
+            <button class="btn" id="copy-beat" type="button" title="Copiar un enlace con tu beat">🔗 Copiar beat</button>
+            <label>Swing <input type="range" id="swing" min="0" max="60" value="0" /></label>
+            <label>Vol <input type="range" id="vol" min="0" max="100" value="85" /></label>
           </div>
           <div class="seq-wrap"><div class="seq" id="seq"></div></div>
           <canvas id="viz" height="64" aria-hidden="true"></canvas>
@@ -636,6 +643,7 @@
     var pattern = [[], [], [], []];
     var bassFreq = [];
     var bpm = 120, playing = false, step = 0, nextTime = 0, timer = null;
+    var swingPct = 0, vol = 0.85;
     var actx = null, master = null, analyser = null, noiseBuf = null, uiQueue = [];
 
     var seqEl = $('#seq');
@@ -679,6 +687,63 @@
     loadPreset('rock');
     $('#preset-sel').addEventListener('change', function () { loadPreset(this.value); toast('🎵 Preset cargado: ' + this.options[this.selectedIndex].text); });
     $('#bpm').addEventListener('input', function () { bpm = +this.value; $('#bpm-val').textContent = bpm + ' BPM'; });
+    $('#swing').addEventListener('input', function () { swingPct = +this.value; });
+    $('#vol').addEventListener('input', function () {
+      vol = +this.value / 100;
+      if (master) master.gain.value = vol;
+    });
+    $('#rand-btn').addEventListener('click', function () {
+      var root = currentRoot();
+      var notes = [root, root, root * 1.5, root * 2, root * 1.1892];
+      for (var i = 0; i < STEPS; i++) {
+        pattern[0][i] = i === 0 || (i % 4 === 0 && Math.random() < 0.5) || Math.random() < 0.15;
+        pattern[1][i] = (i === 4 || i === 12) ? Math.random() < 0.9 : Math.random() < 0.07;
+        pattern[2][i] = i % 2 === 0 ? Math.random() < 0.8 : Math.random() < 0.25;
+        pattern[3][i] = Math.random() < 0.4;
+        bassFreq[i] = notes[Math.floor(Math.random() * notes.length)];
+      }
+      paintPattern();
+      toast('🎲 Beat aleatorio generado: dale a reproducir');
+    });
+
+    /* ---- Compartir beats por URL ---- */
+    function beatCode() {
+      var hex = '';
+      for (var t = 0; t < 4; t++) {
+        var n = 0;
+        for (var i = 0; i < STEPS; i++) if (pattern[t][i]) n |= 1 << i;
+        hex += ('0000' + n.toString(16)).slice(-4);
+      }
+      return hex + '.' + bpm + '.' + Math.round(currentRoot() * 100) + '.' + swingPct;
+    }
+    function loadBeatCode(code) {
+      var m = /^([0-9a-f]{16})\.(\d{2,3})\.(\d{3,5})\.(\d{1,2})$/.exec(code);
+      if (!m) return false;
+      for (var t = 0; t < 4; t++) {
+        var n = parseInt(m[1].substr(t * 4, 4), 16);
+        pattern[t] = [];
+        for (var i = 0; i < STEPS; i++) pattern[t][i] = !!(n & (1 << i));
+      }
+      var root = +m[3] / 100;
+      for (var j = 0; j < STEPS; j++) bassFreq[j] = root;
+      bpm = Math.min(200, Math.max(60, +m[2]));
+      swingPct = Math.min(60, +m[4]);
+      $('#bpm').value = bpm;
+      $('#bpm-val').textContent = bpm + ' BPM';
+      $('#swing').value = swingPct;
+      paintPattern();
+      return true;
+    }
+    $('#copy-beat').addEventListener('click', function () {
+      var url = location.href.split('#')[0] + '#b=' + beatCode();
+      if (navigator.clipboard) {
+        navigator.clipboard.writeText(url).then(function () { toast('🔗 Enlace de tu beat copiado: compártelo con quien quieras'); });
+      } else { toast('Tu navegador no permite copiar automáticamente'); }
+    });
+    if (/^#b=/.test(location.hash) && loadBeatCode(location.hash.slice(3))) {
+      toast('🎵 Beat compartido cargado: dale a reproducir');
+      setTimeout(function () { $('#estudio').scrollIntoView(); }, 100);
+    }
     $('#clear-btn').addEventListener('click', function () {
       pattern = pattern.map(function () { return Array(STEPS).fill(false); });
       paintPattern();
@@ -689,7 +754,7 @@
       var AC = window.AudioContext || window.webkitAudioContext;
       actx = new AC();
       master = actx.createGain();
-      master.gain.value = 0.85;
+      master.gain.value = vol;
       analyser = actx.createAnalyser();
       analyser.fftSize = 64;
       master.connect(analyser);
@@ -739,12 +804,14 @@
     }
     function schedule() {
       while (nextTime < actx.currentTime + 0.12) {
-        if (pattern[0][step]) playKick(nextTime);
-        if (pattern[1][step]) playSnare(nextTime);
-        if (pattern[2][step]) playHat(nextTime);
-        if (pattern[3][step]) playBass(nextTime, bassFreq[step]);
-        uiQueue.push({ step: step, time: nextTime });
-        nextTime += 60 / bpm / 4;
+        var stepDur = 60 / bpm / 4;
+        var t = nextTime + (step % 2 ? swingPct / 100 * stepDur * 0.5 : 0);
+        if (pattern[0][step]) playKick(t);
+        if (pattern[1][step]) playSnare(t);
+        if (pattern[2][step]) playHat(t);
+        if (pattern[3][step]) playBass(t, bassFreq[step]);
+        uiQueue.push({ step: step, time: t });
+        nextTime += stepDur;
         step = (step + 1) % STEPS;
       }
     }
@@ -1049,6 +1116,48 @@
       share('🎵 Saqué ' + qScore + '/10 en el quiz de Cultura Musical. ¿Puedes superarme?');
     });
     startQuiz();
+
+    /* ---------- Oír el ritmo de cada época ---------- */
+    var ERA_PRESET = { 4: 'rock', 5: 'punk', 6: 'house', 7: 'hiphop', 8: 'metal', 9: 'reggaeton' };
+    $$('.era').forEach(function (era, i) {
+      var p = ERA_PRESET[i];
+      if (!p) return;
+      var b = document.createElement('button');
+      b.type = 'button';
+      b.className = 'btn era-play';
+      b.textContent = '▶ Oír el ritmo de esta época';
+      b.addEventListener('click', function () { hearPreset(p); });
+      $('h3', era).insertAdjacentElement('afterend', b);
+    });
+
+    /* ---------- Sorpréndeme (subgénero al azar) ---------- */
+    $('#surprise').addEventListener('click', function () {
+      var chips = $$('.chip');
+      chips[Math.floor(Math.random() * chips.length)].click();
+    });
+
+    /* ---------- Scrollspy en la navegación ---------- */
+    var spy = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (!e.isIntersecting) return;
+        $$('.nav-links a').forEach(function (a) {
+          a.classList.toggle('active', a.getAttribute('href') === '#' + e.target.id);
+        });
+      });
+    }, { rootMargin: '-35% 0px -55% 0px' });
+    ['historia', 'generos', 'estudio', 'quiz'].forEach(function (id) { spy.observe($('#' + id)); });
+
+    /* ---------- Easter egg 🖤 ---------- */
+    var kbuf = '';
+    document.addEventListener('keydown', function (e) {
+      if (e.key.length !== 1 || /INPUT|TEXTAREA|SELECT/.test(document.activeElement.tagName)) return;
+      kbuf = (kbuf + e.key.toLowerCase()).slice(-8);
+      if (kbuf.slice(-4) === 'bmth') {
+        kbuf = '';
+        toast('🖤 That is the spirit — cargando el sonido de Bring Me The Horizon…');
+        hearPreset('metal');
+      }
+    });
 
     /* ---------- PWA ---------- */
     if ('serviceWorker' in navigator && (location.protocol === 'https:' || location.hostname === 'localhost')) {

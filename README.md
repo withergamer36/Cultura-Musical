@@ -6,7 +6,10 @@ Experiencia web interactiva sobre la cultura musical a través de los años: des
 
 ## Características
 
-- **🎛️ Estudio de ritmos** — secuenciador de 16 pasos con síntesis en tiempo real (Web Audio API): bombo, caja, hi-hat y bajo, 7 presets de género (rock, metal, punk, hip-hop, reggaetón, house, techno), tempo ajustable, edición de patrones y visualizador de espectro.
+- **🎛️ Estudio de ritmos** — secuenciador de 16 pasos con síntesis en tiempo real (Web Audio API): bombo, caja, hi-hat y bajo, 7 presets de género (rock, metal, punk, hip-hop, reggaetón, house, techno), tempo, swing y volumen ajustables, generador de beats aleatorios, edición de patrones y visualizador de espectro.
+- **🔗 Beats compartibles** — tu patrón, tempo y swing se codifican en un enlace (`#b=…`): cópialo, compártelo y cualquiera lo abre listo para reproducir.
+- **🕰️ Épocas que suenan** — cada era moderna de la línea de tiempo tiene un botón "▶ Oír el ritmo de esta época" que carga su preset en el estudio.
+- **🎲 Sorpréndeme** — descubre un subgénero al azar entre los 110 del sitio.
 - **🧠 Quiz interactivo** — 10 preguntas con explicación en cada respuesta, orden aleatorio, mejor marca guardada en el dispositivo y compartir resultado.
 - **🔍 Buscador global** (`Ctrl+K`) — encuentra cualquier época, género o subgénero con navegación por teclado y salto directo a la sección.
 - **📖 Fichas de subgéneros** — cada chip abre un modal con descripción, enlace a Wikipedia y botón para oír el ritmo de su familia.
